@@ -39,8 +39,8 @@ for (i in 1:nsim) {
   
   # Wald (Delta)
   se_hat <- lam_hat / sqrt(n)
-  lo_w  <- lam_hat - z*se_hat
-  hi_w  <- lam_hat + z*se_hat
+  lo_w <- (1 - z / sqrt(n)) / yb
+  hi_w<- (1 + z / sqrt(n)) / yb
   cover_wald[i] <- (lambda >= lo_w) & (lambda <= hi_w)
   len_wald[i] <- hi_w - lo_w
 }
