@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Runjiu Chen - Example analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Runjiu Chen</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./analysis.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Example analysis</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-description" id="toc-data-description" class="nav-link active" data-scroll-target="#data-description">Data Description</a>
+  <ul class="collapse">
+  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#external-image" id="toc-external-image" class="nav-link" data-scroll-target="#external-image">External image</a></li>
+  <li><a href="#audience" id="toc-audience" class="nav-link" data-scroll-target="#audience">Audience</a></li>
+  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data source</a></li>
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary">Data dictionary</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#functions-checklist" id="toc-functions-checklist" class="nav-link" data-scroll-target="#functions-checklist">Functions checklist</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Example analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="data-description" class="level1">
+<h1>Data Description</h1>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>Identify key factors associated with depression among patients with Type 2 Diabetes Mellitus (T2DM) in Changde First People’s Hospital and provide actionable insights for clinical screening &amp; interventions.</p>
+</section>
+<section id="external-image" class="level2">
+<h2 class="anchored" data-anchor-id="external-image">External image</h2>
+<p><img src="images/Plot-01.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Tip with Title">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip with Title
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This diagram illustrates the relationship between diabetes and depression.</p>
+</div>
+</div>
+</section>
+<section id="audience" class="level2">
+<h2 class="anchored" data-anchor-id="audience">Audience</h2>
+<p>Clinicians, diabetes educators, hospital administrators, and public health students in PH.140.777.</p>
+</section>
+<section id="data-source" class="level2">
+<h2 class="anchored" data-anchor-id="data-source">Data source</h2>
+<p>Survey + EHR data from Changde First People’s Hospital(常德市第一人民医院). Hospital website: &lt;http://www.cdsyy.com&gt;</p>
+</section>
+<section id="data-dictionary" class="level2">
+<h2 class="anchored" data-anchor-id="data-dictionary">Data dictionary</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that there are 60 columns</p>
+</div>
+</div>
+<p><em><strong>Name</strong> — String<br>
+An anonymized identifier or coded name for each participant.</em></p>
+<p><em><strong>Age</strong> — Numeric<br>
+Age of the participant in years.</em></p>
+<p><em><strong>Duration of Diabetes (years)</strong> — Numeric<br>
+Number of years since the diagnosis of type 2 diabetes.</em></p>
+<p><em><strong>Height (cm)</strong> — Numeric<br>
+Measured height in centimeters.</em></p>
+<p><em><strong>Weight (kg)</strong> — Numeric<br>
+Measured body weight in kilograms.</em></p>
+<p><em><strong>BMI</strong> — Numeric<br>
+Body Mass Index, calculated as weight (kg) divided by height squared (m²).</em></p>
+<p><em><strong>Blood Pressure (mmHg)</strong> — String<br>
+Combined systolic and diastolic blood pressure (e.g., "130/85").<br>
+Includes the variables high_blood_pressure and low_blood_pressure.</em></p>
+<p><em><strong>First Fasting Blood Glucose (mmol/L)</strong> — Numeric<br>
+Morning fasting plasma glucose level measured in mmol/L.</em></p>
+<p><em><strong>HbA1c (%)</strong> — Numeric<br>
+Glycated hemoglobin level, reflecting the average blood glucose concentration during the previous 2–3 months.</em></p>
+<p><em><strong>Sex</strong> — Categorical<br>
+Biological sex of the participant (Male / Female).</em></p>
+<p><em><strong>Occupation</strong> — Categorical<br>
+Current or most recent occupation category.</em></p>
+<p><em><strong>Highest Education Level</strong> — Categorical<br>
+Highest formal education attained (e.g., primary, secondary, college).</em></p>
+<p><em><strong>Monthly Income (CNY/month)</strong> — Categorical<br>
+Self-reported monthly household income range in Chinese Yuan.</em></p>
+<p><em><strong>Marital Status</strong> — Categorical<br>
+Current marital status: Married, Single, Widowed, or Divorced.</em></p>
+<p><em><strong>Residence Location</strong> — Categorical<br>
+Urban or rural area of residence.</em></p>
+<p><em><strong>Living Alone</strong> — Binary<br>
+Indicates whether the participant lives alone (1 = Yes, 0 = No).</em></p>
+<p><em><strong>Smoking Status</strong> — Categorical<br>
+Smoking habit: Never, Former, or Current.</em></p>
+<p><em><strong>Drinking Status</strong> — Categorical<br>
+Alcohol consumption pattern: None, Occasional, or Regular.</em></p>
+<p><em><strong>Family History of Diabetes</strong> — Binary<br>
+Presence of diabetes in immediate family (1 = Yes, 0 = No).</em></p>
+<p><em><strong>Clinical Symptoms</strong> — Text<br>
+Self-reported diabetes-related symptoms such as thirst, fatigue, or polyuria.</em></p>
+<p><em><strong>Comorbid Diseases</strong> — Text<br>
+Other diagnosed chronic conditions (e.g., hypertension, dyslipidemia).</em></p>
+<p><em><strong>Complications</strong> — Text<br>
+Diabetes-related complications such as neuropathy, nephropathy, or retinopathy.</em></p>
+<p><em><strong>Exercise in Leisure Time</strong> — Binary<br>
+Engagement in physical exercise during free time (1 = Yes, 0 = No).</em></p>
+<p><em><strong>Exercise Frequency (times/week)</strong> — Numeric<br>
+Number of exercise sessions per week.</em></p>
+<p><em><strong>Exercise Duration (minutes/session)</strong> — Numeric<br>
+Average duration per exercise session in minutes.</em></p>
+<p><em><strong>Depression Scale (PHQ-9 items)</strong> — Ordinal (0–3 per item)<br>
+The Patient Health Questionnaire-9, assessing nine core depressive symptoms: loss of interest, depressed mood, sleep problems, low energy, appetite change, guilt, poor concentration, psychomotor changes, and suicidal thoughts.<br>
+Total score ranges from 0 to 27; higher scores indicate more severe depression.</em></p>
+<p><em><strong>Self-Management Scale (DSMS items)</strong> — Ordinal (1–5 Likert scale)<br>
+Measures diabetes self-management behaviors across domains of diet control, physical activity, blood glucose monitoring, foot care, and medication adherence.<br>
+Higher scores indicate better self-management.</em></p>
+<p><em><strong>Caregiver Burden Scale (CBS items)</strong> — Ordinal (1–5 Likert scale)<br>
+Assesses perceived emotional, financial, and practical burden among caregivers (e.g., worry, guilt, cost, perceived competence).<br>
+Higher scores indicate greater caregiver burden.</em></p>
+<p><em><strong>Total Score</strong> — Numeric<br>
+</em> <em>A composite or summary score integrating psychological and behavioral scales to represent overall patient well-being.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(readxl); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(tidyr); <span class="fu">library</span>(stringr); <span class="fu">library</span>(janitor)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(ggplot2); <span class="fu">library</span>(patchwork); <span class="fu">library</span>(broom); <span class="fu">library</span>(car)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(lmtest); <span class="fu">library</span>(sandwich); <span class="fu">library</span>(scales)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readxl' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.3.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.3.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'stringr' was built under R version 4.3.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'janitor' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'patchwork' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'broom' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'car' was built under R version 4.3.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'carData' was built under R version 4.3.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lmtest' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'sandwich' was built under R version 4.3.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pal_bg <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#0ea5a6"</span>, <span class="st">"#38bdf8"</span>, <span class="st">"#10b981"</span>, <span class="st">"#0ea5e9"</span>, <span class="st">"#14b8a6"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>theme_bg <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#0ea5a6"</span>),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#0f172a"</span>),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.text  =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#334155"</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">legend.position =</span> <span class="st">"right"</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>xlsx_path <span class="ot">&lt;-</span> <span class="fu">normalizePath</span>(<span class="st">"C:/Users/DELL/OneDrive/桌面/JHU Class/Patient Diabetes.xlsx"</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                           <span class="at">winslash =</span> <span class="st">"/"</span>, <span class="at">mustWork =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>sheets <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">excel_sheets</span>(xlsx_path)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>best   <span class="ot">&lt;-</span> sheets[<span class="fu">which.max</span>(<span class="fu">sapply</span>(sheets, \(s) <span class="fu">nrow</span>(readxl<span class="sc">::</span><span class="fu">read_excel</span>(xlsx_path, <span class="at">sheet =</span> s, <span class="at">n_max =</span> <span class="dv">10</span>))))]</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>raw    <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(xlsx_path, <span class="at">sheet =</span> best) <span class="sc">|&gt;</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"Loaded sheet: "</span>, best)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loaded sheet: Sheet1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>char_df <span class="ot">&lt;-</span> raw <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span><span class="fu">as.character</span>(.) <span class="sc">|&gt;</span> <span class="fu">str_squish</span>()))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>has_cn  <span class="ot">&lt;-</span> char_df <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span><span class="fu">str_detect</span>(., <span class="st">"</span><span class="sc">\\</span><span class="st">p{Han}"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">row_cn =</span> <span class="fu">apply</span>(<span class="fu">across</span>(<span class="fu">everything</span>()), <span class="dv">1</span>, any)) <span class="sc">|&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(row_cn) <span class="sc">%&gt;%</span> <span class="fu">replace_na</span>(<span class="cn">FALSE</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>num_safe <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">as.character</span>(x)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> stringi<span class="sc">::</span><span class="fu">stri_trans_general</span>(x, <span class="st">"Fullwidth-Halfwidth"</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"[,，]"</span>, <span class="st">""</span>, x)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"[^0-9</span><span class="sc">\\</span><span class="st">.-]"</span>, <span class="st">""</span>, x)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(x))</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>num_df <span class="ot">&lt;-</span> char_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), num_safe))</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>is_numlike <span class="ot">&lt;-</span> <span class="cf">function</span>(v) <span class="fu">mean</span>(<span class="sc">!</span><span class="fu">is.na</span>(v)) <span class="sc">&gt;=</span> <span class="fl">0.5</span> <span class="sc">&amp;&amp;</span> dplyr<span class="sc">::</span><span class="fu">n_distinct</span>(<span class="fu">na.omit</span>(v)) <span class="sc">&gt;=</span> <span class="dv">5</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>num_cols  <span class="ot">&lt;-</span> <span class="fu">names</span>(num_df)[<span class="fu">sapply</span>(num_df, is_numlike)]</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(num_cols) <span class="sc">&gt;=</span> <span class="dv">2</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>clean0 <span class="ot">&lt;-</span> num_df <span class="sc">|&gt;</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>has_cn) <span class="sc">|&gt;</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(<span class="fu">all_of</span>(num_cols))</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>pick_col <span class="ot">&lt;-</span> <span class="cf">function</span>(nm, patterns){</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  idx <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">Reduce</span>(<span class="st">`</span><span class="at">|</span><span class="st">`</span>, <span class="fu">lapply</span>(patterns, <span class="cf">function</span>(p) <span class="fu">grepl</span>(p, nm, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>))))</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(idx) <span class="sc">==</span> <span class="dv">0</span>) <span class="cn">NA_character_</span> <span class="cf">else</span> nm[idx[<span class="dv">1</span>]]</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>nm <span class="ot">&lt;-</span> <span class="fu">names</span>(clean0)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>col_hba1c <span class="ot">&lt;-</span> <span class="fu">pick_col</span>(nm, <span class="fu">c</span>(<span class="st">"^hba1c$"</span>, <span class="st">"hb.?a1c"</span>, <span class="st">"glycated"</span>, <span class="st">"glyco.?hemoglobin"</span>, <span class="st">"糖化"</span>))</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>col_total <span class="ot">&lt;-</span> <span class="fu">pick_col</span>(nm, <span class="fu">c</span>(<span class="st">"^total</span><span class="sc">\\</span><span class="st">s*_?score$"</span>, <span class="st">"total</span><span class="sc">\\</span><span class="st">s*score"</span>, <span class="st">"^score$"</span>, <span class="st">"总分"</span>))</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">is.na</span>(col_total)) <span class="fu">stop</span>(<span class="st">"未找到 Total Score 列（例如 'Total Score' / 'total_score' / '总分'）。"</span>)</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>clean <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(col_hba1c)) {</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>  before <span class="ot">&lt;-</span> <span class="fu">nrow</span>(clean0); out <span class="ot">&lt;-</span> clean0 <span class="sc">|&gt;</span> <span class="fu">filter</span>(.data[[col_hba1c]] <span class="sc">&lt;=</span> <span class="dv">30</span> <span class="sc">|</span> <span class="fu">is.na</span>(.data[[col_hba1c]]))</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"Removed HbA1c &gt; 30%: "</span>, before <span class="sc">-</span> <span class="fu">nrow</span>(out)); out</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> clean0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Removed HbA1c &gt; 30%: 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>num_cols <span class="ot">&lt;-</span> <span class="fu">union</span>(col_total, <span class="fu">intersect</span>(num_cols, <span class="fu">names</span>(clean)))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df_num   <span class="ot">&lt;-</span> clean <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">all_of</span>(num_cols)) <span class="sc">|&gt;</span> <span class="fu">drop_na</span>(<span class="fu">all_of</span>(col_total))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>n_total  <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df_num)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>method_used <span class="ot">&lt;-</span> <span class="st">"spearman"</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>corr_vec <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">setdiff</span>(<span class="fu">names</span>(df_num), col_total), <span class="cf">function</span>(v){</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(<span class="fu">cor</span>(df_num[[v]], df_num[[col_total]], <span class="at">use =</span> <span class="st">"complete.obs"</span>, <span class="at">method =</span> method_used))</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>corr_tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">variable =</span> <span class="fu">names</span>(corr_vec), <span class="at">cor =</span> <span class="fu">as.numeric</span>(corr_vec)) <span class="sc">|&gt;</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="fu">abs</span>(cor)))</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>k_top <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">5</span>, <span class="fu">nrow</span>(corr_tbl))</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (k_top <span class="sc">&lt;</span> <span class="dv">1</span>) <span class="fu">stop</span>(<span class="st">"可用于相关性的自变量不足。"</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>top5_vars <span class="ot">&lt;-</span> <span class="fu">head</span>(corr_tbl<span class="sc">$</span>variable, k_top)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"Top vars: "</span>, <span class="fu">paste</span>(top5_vars, <span class="at">collapse =</span> <span class="st">", "</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Top vars: self_management_scale_measure, self_management_scale_diet_days, self_management_scale_shoes, self_management_scale_diet_control, self_management_scale_blood_sugar_monitoring</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>p_bar <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(corr_tbl <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">reorder</span>(variable, <span class="fu">abs</span>(cor))),</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(<span class="at">x =</span> variable, <span class="at">y =</span> cor, <span class="at">fill =</span> cor)) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"#38bdf8"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#10b981"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Correlation with Total Score"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">"Method: "</span>, method_used),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Correlation (r)"</span>) <span class="sc">+</span> <span class="fu">theme_bg</span>()</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_bar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>heat_vars <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">c</span>(col_total, top5_vars))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>cor_mat  <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">cor</span>(df_num[, heat_vars, <span class="at">drop =</span> <span class="cn">FALSE</span>], <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>, <span class="at">method =</span> method_used))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>cor_df   <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">as.table</span>(cor_mat)); <span class="fu">names</span>(cor_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Var1"</span>,<span class="st">"Var2"</span>,<span class="st">"Corr"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>p_heat <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cor_df, <span class="fu">aes</span>(Var1, Var2, <span class="at">fill =</span> Corr)) <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"#38bdf8"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#10b981"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Correlation heatmap (Top vars + Total Score)"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="st">"r"</span>) <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bg</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_heat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>safe_design <span class="ot">&lt;-</span> <span class="cf">function</span>(df, y, x_vars){</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  df_sub <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(y, x_vars))) <span class="sc">|&gt;</span> <span class="fu">drop_na</span>()</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">length</span>(x_vars); <span class="cf">if</span> (k <span class="sc">&lt;</span> <span class="dv">1</span>) <span class="fu">stop</span>(<span class="st">"x_vars 为空。"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  safe_names <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"x"</span>, <span class="fu">seq_len</span>(k))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  map_tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">orig =</span> x_vars, <span class="at">safe =</span> safe_names)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># rename 使用 new = old</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  renamer <span class="ot">&lt;-</span> <span class="fu">setNames</span>(x_vars, safe_names)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> df_sub <span class="sc">|&gt;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="fu">all_of</span>(x_vars)) <span class="sc">|&gt;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="sc">!!!</span>renamer) <span class="sc">|&gt;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span><span class="fu">as.numeric</span>(<span class="fu">scale</span>(.))))</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(<span class="at">total =</span> df_sub[[y]], X)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">data =</span> out, <span class="at">map =</span> map_tbl)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>A_prep <span class="ot">&lt;-</span> <span class="fu">safe_design</span>(df_num, <span class="at">y =</span> col_total, <span class="at">x_vars =</span> top5_vars)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>dat_A  <span class="ot">&lt;-</span> A_prep<span class="sc">$</span>data</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>map_A  <span class="ot">&lt;-</span> A_prep<span class="sc">$</span>map</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">paste0</span>(<span class="st">"x"</span>, <span class="fu">seq_len</span>(<span class="fu">ncol</span>(dat_A)<span class="sc">-</span><span class="dv">1</span>)) <span class="sc">%in%</span> <span class="fu">names</span>(dat_A)))</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>fit_A  <span class="ot">&lt;-</span> <span class="fu">lm</span>(total <span class="sc">~</span> ., <span class="at">data =</span> dat_A)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>A_ols  <span class="ot">&lt;-</span> <span class="fu">tidy</span>(fit_A, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>A_hc3  <span class="ot">&lt;-</span> lmtest<span class="sc">::</span><span class="fu">coeftest</span>(fit_A, <span class="at">vcov =</span> sandwich<span class="sc">::</span><span class="fu">vcovHC</span>(fit_A, <span class="at">type =</span> <span class="st">"HC3"</span>)) <span class="sc">|&gt;</span> broom<span class="sc">::</span><span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>A_gl   <span class="ot">&lt;-</span> <span class="fu">glance</span>(fit_A)[, <span class="fu">c</span>(<span class="st">"r.squared"</span>,<span class="st">"adj.r.squared"</span>,<span class="st">"p.value"</span>,<span class="st">"AIC"</span>,<span class="st">"BIC"</span>)]</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"MODEL A adj.R2 = "</span>, <span class="fu">round</span>(A_gl<span class="sc">$</span>adj.r.squared,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>MODEL A adj.R2 = 0.749</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>reduce_collinearity <span class="ot">&lt;-</span> <span class="cf">function</span>(dat, y){</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  fml <span class="ot">&lt;-</span> <span class="fu">reformulate</span>(<span class="fu">setdiff</span>(<span class="fu">names</span>(dat), y), <span class="at">response =</span> y)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(fml, <span class="at">data =</span> dat)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">repeat</span>{</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(car<span class="sc">::</span><span class="fu">vif</span>(fit), <span class="at">error =</span> <span class="cf">function</span>(e) <span class="cn">NULL</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.null</span>(v) <span class="sc">||</span> <span class="fu">max</span>(v, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&lt;=</span> <span class="dv">5</span> <span class="sc">||</span> <span class="fu">length</span>(v) <span class="sc">&lt;=</span> <span class="dv">1</span>) <span class="cf">break</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    drop_var <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(v))</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    dat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">all_of</span>(drop_var))</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    fml <span class="ot">&lt;-</span> <span class="fu">reformulate</span>(<span class="fu">setdiff</span>(<span class="fu">names</span>(dat), y), <span class="at">response =</span> y)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(fml, <span class="at">data =</span> dat)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">data =</span> dat, <span class="at">fit =</span> fit, <span class="at">vif =</span> <span class="fu">tryCatch</span>(car<span class="sc">::</span><span class="fu">vif</span>(fit), <span class="at">error =</span> <span class="cf">function</span>(e) <span class="cn">NULL</span>))</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>B_red <span class="ot">&lt;-</span> <span class="fu">reduce_collinearity</span>(dat_A, <span class="st">"total"</span>)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>dat_B2 <span class="ot">&lt;-</span> B_red<span class="sc">$</span>data; fit_B <span class="ot">&lt;-</span> B_red<span class="sc">$</span>fit; vif_B <span class="ot">&lt;-</span> B_red<span class="sc">$</span>vif</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>B_ols <span class="ot">&lt;-</span> <span class="fu">tidy</span>(fit_B, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>B_hc3 <span class="ot">&lt;-</span> lmtest<span class="sc">::</span><span class="fu">coeftest</span>(fit_B, <span class="at">vcov =</span> sandwich<span class="sc">::</span><span class="fu">vcovHC</span>(fit_B, <span class="at">type =</span> <span class="st">"HC3"</span>)) <span class="sc">|&gt;</span> broom<span class="sc">::</span><span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>B_gl  <span class="ot">&lt;-</span> <span class="fu">glance</span>(fit_B)[, <span class="fu">c</span>(<span class="st">"r.squared"</span>,<span class="st">"adj.r.squared"</span>,<span class="st">"p.value"</span>,<span class="st">"AIC"</span>,<span class="st">"BIC"</span>)]</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"MODEL B adj.R2 = "</span>, <span class="fu">round</span>(B_gl<span class="sc">$</span>adj.r.squared,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>MODEL B adj.R2 = 0.745</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">777</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> <span class="dv">5</span>; n_cv <span class="ot">&lt;-</span> <span class="fu">nrow</span>(dat_A); fold_id <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>K, <span class="at">length.out =</span> n_cv))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>RMSE <span class="ot">&lt;-</span> <span class="cf">function</span>(y, yhat) <span class="fu">sqrt</span>(<span class="fu">mean</span>((y <span class="sc">-</span> yhat)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>R2   <span class="ot">&lt;-</span> <span class="cf">function</span>(y, yhat) <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>((y <span class="sc">-</span> yhat)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sum</span>((y <span class="sc">-</span> <span class="fu">mean</span>(y))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>cv_collect <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="fu">data.frame</span>(<span class="at">rmse=</span><span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">r2=</span><span class="fu">numeric</span>(<span class="dv">0</span>)),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">B =</span> <span class="fu">data.frame</span>(<span class="at">rmse=</span><span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">r2=</span><span class="fu">numeric</span>(<span class="dv">0</span>)))</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>K){</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  tr <span class="ot">&lt;-</span> dat_A[fold_id <span class="sc">!=</span> k, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  te <span class="ot">&lt;-</span> dat_A[fold_id <span class="sc">==</span> k, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># A</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  fitA  <span class="ot">&lt;-</span> <span class="fu">lm</span>(total <span class="sc">~</span> ., <span class="at">data =</span> tr)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  predA <span class="ot">&lt;-</span> <span class="fu">predict</span>(fitA, <span class="at">newdata =</span> te)</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  cv_collect<span class="sc">$</span>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(cv_collect<span class="sc">$</span>A, <span class="fu">data.frame</span>(<span class="at">rmse =</span> <span class="fu">RMSE</span>(te<span class="sc">$</span>total, predA),</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">r2   =</span> <span class="fu">R2</span>(te<span class="sc">$</span>total, predA)))</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># B</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>  redB <span class="ot">&lt;-</span> <span class="fu">reduce_collinearity</span>(tr, <span class="st">"total"</span>)</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>  fitB <span class="ot">&lt;-</span> redB<span class="sc">$</span>fit</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  predB <span class="ot">&lt;-</span> <span class="fu">predict</span>(fitB, <span class="at">newdata =</span> te)      </span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>  cv_collect<span class="sc">$</span>B <span class="ot">&lt;-</span> <span class="fu">rbind</span>(cv_collect<span class="sc">$</span>B, <span class="fu">data.frame</span>(<span class="at">rmse =</span> <span class="fu">RMSE</span>(te<span class="sc">$</span>total, predB),</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">r2   =</span> <span class="fu">R2</span>(te<span class="sc">$</span>total, predB)))</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>cv_sum <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">Map</span>(<span class="cf">function</span>(df, name){</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">model =</span> name,</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>             <span class="at">rmse_mean =</span> <span class="fu">mean</span>(df<span class="sc">$</span>rmse), <span class="at">rmse_sd =</span> <span class="fu">sd</span>(df<span class="sc">$</span>rmse),</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>             <span class="at">r2_mean   =</span> <span class="fu">mean</span>(df<span class="sc">$</span>r2),   <span class="at">r2_sd   =</span> <span class="fu">sd</span>(df<span class="sc">$</span>r2))</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>}, cv_collect, <span class="fu">names</span>(cv_collect)))</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cv_sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  model rmse_mean   rmse_sd   r2_mean      r2_sd
+A     A  11.97848 0.9481894 0.6910978 0.04603774
+B     B  12.18908 0.9394126 0.6805223 0.04476950</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>p_cv <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cv_sum, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(model, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>)), <span class="at">y =</span> r2_mean, <span class="at">fill =</span> model)) <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.6</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> r2_mean <span class="sc">-</span> r2_sd, <span class="at">ymax =</span> r2_mean <span class="sc">+</span> r2_sd), <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> pal_bg) <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"5-fold CV: R² (mean ± sd)"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">"N = "</span>, n_cv),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"R²"</span>) <span class="sc">+</span> <span class="fu">theme_bg</span>()</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>p_rmse <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cv_sum, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(model, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>)), <span class="at">y =</span> rmse_mean, <span class="at">fill =</span> model)) <span class="sc">+</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.6</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> rmse_mean <span class="sc">-</span> rmse_sd, <span class="at">ymax =</span> rmse_mean <span class="sc">+</span> r2_sd), <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> pal_bg) <span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"5-fold CV: RMSE (mean ± sd)"</span>, <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">"N = "</span>, n_cv),</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"RMSE"</span>) <span class="sc">+</span> <span class="fu">theme_bg</span>()</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_cv <span class="sc">+</span> p_rmse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pred_A <span class="ot">&lt;-</span> <span class="fu">augment</span>(fit_A) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"A_Top"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>pred_B <span class="ot">&lt;-</span> <span class="fu">augment</span>(fit_B) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"B_Decol"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>p_fit <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(pred_A, pred_B) <span class="sc">|&gt;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fitted, total, <span class="at">color =</span> model)) <span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"#334155"</span>) <span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> pal_bg) <span class="sc">+</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Observed vs Fitted (A vs B)"</span>, <span class="at">x =</span> <span class="st">"Fitted Total Score"</span>, <span class="at">y =</span> <span class="st">"Observed Total Score"</span>) <span class="sc">+</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bg</span>()</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>p_res <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(pred_A, pred_B) <span class="sc">|&gt;</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fitted, .resid, <span class="at">color =</span> model)) <span class="sc">+</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"#334155"</span>) <span class="sc">+</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> pal_bg) <span class="sc">+</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Residuals vs Fitted (A vs B)"</span>, <span class="at">x =</span> <span class="st">"Fitted values"</span>, <span class="at">y =</span> <span class="st">"Residuals"</span>) <span class="sc">+</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bg</span>()</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_fit); <span class="fu">print</span>(p_res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-1-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-1-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>bpA <span class="ot">&lt;-</span> <span class="fu">bptest</span>(fit_A); swA <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">nrow</span>(dat_A)<span class="sc">&lt;=</span><span class="dv">5000</span>) <span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(fit_A)) <span class="cf">else</span> <span class="fu">list</span>(<span class="at">p.value =</span> <span class="cn">NA</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>bpB <span class="ot">&lt;-</span> <span class="fu">bptest</span>(fit_B); swB <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">nrow</span>(dat_B2)<span class="sc">&lt;=</span><span class="dv">5000</span>) <span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(fit_B)) <span class="cf">else</span> <span class="fu">list</span>(<span class="at">p.value =</span> <span class="cn">NA</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">==== SUMMARY ====</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+==== SUMMARY ====</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Top vars (orig -&gt; safe):</span><span class="sc">\n</span><span class="st">"</span>); <span class="fu">print</span>(map_A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Top vars (orig -&gt; safe):</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  orig                                         safe 
+  &lt;chr&gt;                                        &lt;chr&gt;
+1 self_management_scale_measure                x1   
+2 self_management_scale_diet_days              x2   
+3 self_management_scale_shoes                  x3   
+4 self_management_scale_diet_control           x4   
+5 self_management_scale_blood_sugar_monitoring x5   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Model A (Top OLS): adj.R2 ="</span>, <span class="fu">round</span>(A_gl<span class="sc">$</span>adj.r.squared,<span class="dv">3</span>),</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">" | BP p ="</span>, <span class="fu">signif</span>(bpA<span class="sc">$</span>p.value,<span class="dv">3</span>),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">" | SW p ="</span>, <span class="fu">ifelse</span>(<span class="fu">is.null</span>(swA<span class="sc">$</span>p.value), <span class="cn">NA</span>, <span class="fu">signif</span>(swA<span class="sc">$</span>p.value,<span class="dv">3</span>)), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Model A (Top OLS): adj.R2 = 0.749  | BP p = 0.0911  | SW p = 0.000201 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Model B (Decol OLS): adj.R2 ="</span>, <span class="fu">round</span>(B_gl<span class="sc">$</span>adj.r.squared,<span class="dv">3</span>),</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">" | BP p ="</span>, <span class="fu">signif</span>(bpB<span class="sc">$</span>p.value,<span class="dv">3</span>),</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">" | SW p ="</span>, <span class="fu">ifelse</span>(<span class="fu">is.null</span>(swB<span class="sc">$</span>p.value), <span class="cn">NA</span>, <span class="fu">signif</span>(swB<span class="sc">$</span>p.value,<span class="dv">3</span>)), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model B (Decol OLS): adj.R2 = 0.745  | BP p = 0.101  | SW p = 5.71e-05 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(vif_B)) { <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">VIF (Model B):</span><span class="sc">\n</span><span class="st">"</span>); <span class="fu">print</span>(vif_B) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+VIF (Model B):
+      x1       x3       x4       x5 
+2.370141 1.580013 1.393228 2.251082 </code></pre>
+</div>
+</div>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>In this hospital sample of adults with T2DM, <strong>probable depression</strong> (PHQ-9 ≥ 10) was common and varied by sex and age. Higher depressive symptom burden showed a modest positive association with HbA1c, and a clear negative association with the dataset's "Total Score", which likely captures better self-management or health status. A simple logistic regression using HbA1c, age, sex, and Total Score provided <strong>interpretable</strong> odds ratios with sensible directions of effect. While results are cross-sectional and rely on screening (not diagnosis), they demonstrate how routinely collected variables can <strong>prioritize patients</strong> for further mental-health assessment. Future work could validate the model prospectively and incorporate more granular self-management behaviors.</p>
+</section>
+<section id="functions-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="functions-checklist">Functions checklist</h2>
+<ul>
+<li><p><strong>dplyr</strong>: <code>mutate()</code>, <code>across()</code>, <code>filter()</code>, <code>select()</code>, <code>rename()</code>, <code>case_when()</code>, <code>group_by()</code>, <code>summarise()</code>, <code>recode()</code>, <code>glimpse()</code></p></li>
+<li><p><strong>tidyr</strong>: <code>drop_na()</code>, <code>pivot_longer()</code> (if you extend item handling), <code>replace_na()</code>, <code>unite()</code> (optional)</p></li>
+<li><p><strong>ggplot2 (geoms)</strong>: <code>geom_histogram()</code>, <code>geom_col()</code>, <code>geom_point()</code>, <code>geom_smooth()</code>, <code>geom_pointrange()</code>, plus <code>facet_wrap()</code></p></li>
+</ul>
+<p>Recent evidence highlights precision subtyping of diabetes <span class="citation" data-cites="weng2022 who2024">(<a href="#ref-weng2022" role="doc-biblioref">Weng 2022</a>; <a href="#ref-who2024" role="doc-biblioref">World Health Organization 2024</a>)</span>.</p>
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-weng2022" class="csl-entry" role="listitem">
+Weng, Jianping. 2022. <span>“Definition and Classification of Diabetes in the Era of Precision Medicine.”</span> <em>Chinese Journal of Diabetes</em> 14 (2): 91–98. <a href="https://doi.org/10.3760/cma.j.cn115791-20220119-00044">https://doi.org/10.3760/cma.j.cn115791-20220119-00044</a>.
+</div>
+<div id="ref-who2024" class="csl-entry" role="listitem">
+World Health Organization. 2024. <span>“Diabetes – Key Facts.”</span> 2024. <a href="https://www.who.int/news-room/fact-sheets/detail/diabetes">https://www.who.int/news-room/fact-sheets/detail/diabetes</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
