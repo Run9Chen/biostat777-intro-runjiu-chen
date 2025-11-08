@@ -10,3 +10,6 @@
 [1,"\n"]
 [1,"Watching files for changes\nBrowse at http://localhost:4933/analysis.html\n"]
 [1,"GET: /analysis.html\n"]
+[1,"pandoc \n  to: html\n  output-file: index.html\n  standalone: true\n  title-prefix: Runjiu Chen\n  section-divs: true\n  html-math-method: mathjax\n  wrap: none\n  default-image-extension: png\n  toc: true\n  \nmetadata\n  document-css: false\n  link-citations: true\n  date-format: long\n  lang: en\n  theme: cosmo\n  title: Runjiu Chen\n  \n"]
+[1,"Output created: _site\\index.html\n\nWatching files for changes\n"]
+[1,"GET: /\n"]
