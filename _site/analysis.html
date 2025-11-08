@@ -161,15 +161,19 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-description" id="toc-data-description" class="nav-link active" data-scroll-target="#data-description">Data Description</a>
+  <li><a href="#data-description" id="toc-data-description" class="nav-link active" data-scroll-target="#data-description">1 Data Description</a>
   <ul class="collapse">
-  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#external-image" id="toc-external-image" class="nav-link" data-scroll-target="#external-image">External image</a></li>
-  <li><a href="#audience" id="toc-audience" class="nav-link" data-scroll-target="#audience">Audience</a></li>
-  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data source</a></li>
-  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary">Data dictionary</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
-  <li><a href="#functions-checklist" id="toc-functions-checklist" class="nav-link" data-scroll-target="#functions-checklist">Functions checklist</a></li>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose">1.1 Purpose</a></li>
+  <li><a href="#external-image" id="toc-external-image" class="nav-link" data-scroll-target="#external-image">1.2 External image</a></li>
+  <li><a href="#audience" id="toc-audience" class="nav-link" data-scroll-target="#audience">1.3 Audience</a></li>
+  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">1.4 Data source</a></li>
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary">1.5 Data dictionary</a></li>
+  </ul></li>
+  <li><a href="#r-code" id="toc-r-code" class="nav-link" data-scroll-target="#r-code">2 R Code</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">3 Discussion</a>
+  <ul class="collapse">
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">3.1 Summary</a></li>
+  <li><a href="#functions-checklist" id="toc-functions-checklist" class="nav-link" data-scroll-target="#functions-checklist">3.2 Functions checklist</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -195,13 +199,13 @@ div.csl-indent {
 </header>
 
 <section id="data-description" class="level1">
-<h1>Data Description</h1>
+<h1>1 Data Description</h1>
 <section id="purpose" class="level2">
-<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<h2 class="anchored" data-anchor-id="purpose">1.1 Purpose</h2>
 <p>Identify key factors associated with depression among patients with Type 2 Diabetes Mellitus (T2DM) in Changde First People’s Hospital and provide actionable insights for clinical screening &amp; interventions.</p>
 </section>
 <section id="external-image" class="level2">
-<h2 class="anchored" data-anchor-id="external-image">External image</h2>
+<h2 class="anchored" data-anchor-id="external-image">1.2 External image</h2>
 <p><img src="images/Plot-01.png" class="img-fluid"></p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Tip with Title">
 <div class="callout-header d-flex align-content-center">
@@ -218,15 +222,16 @@ Tip with Title
 </div>
 </section>
 <section id="audience" class="level2">
-<h2 class="anchored" data-anchor-id="audience">Audience</h2>
+<h2 class="anchored" data-anchor-id="audience">1.3 Audience</h2>
 <p>Clinicians, diabetes educators, hospital administrators, and public health students in PH.140.777.</p>
 </section>
 <section id="data-source" class="level2">
-<h2 class="anchored" data-anchor-id="data-source">Data source</h2>
-<p>Survey + EHR data from Changde First People’s Hospital(常德市第一人民医院). Hospital website: &lt;http://www.cdsyy.com&gt;</p>
+<h2 class="anchored" data-anchor-id="data-source">1.4 Data source</h2>
+<p>Survey + EHR data from Changde First People’s Hospital(常德市第一人民医院). This data contains 2 parts, collected from T2DM patients.</p>
+<p>Hospital website: <a href="http://www.cdsyy.com" class="uri">http://www.cdsyy.com</a></p>
 </section>
 <section id="data-dictionary" class="level2">
-<h2 class="anchored" data-anchor-id="data-dictionary">Data dictionary</h2>
+<h2 class="anchored" data-anchor-id="data-dictionary">1.5 Data dictionary</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -253,7 +258,7 @@ Measured body weight in kilograms.</em></p>
 <p><em><strong>BMI</strong> — Numeric<br>
 Body Mass Index, calculated as weight (kg) divided by height squared (m²).</em></p>
 <p><em><strong>Blood Pressure (mmHg)</strong> — String<br>
-Combined systolic and diastolic blood pressure (e.g., "130/85").<br>
+Combined systolic and diastolic blood pressure (e.g., “130/85”).<br>
 Includes the variables high_blood_pressure and low_blood_pressure.</em></p>
 <p><em><strong>First Fasting Blood Glucose (mmol/L)</strong> — Numeric<br>
 Morning fasting plasma glucose level measured in mmol/L.</em></p>
@@ -302,6 +307,10 @@ Assesses perceived emotional, financial, and practical burden among caregivers (
 Higher scores indicate greater caregiver burden.</em></p>
 <p><em><strong>Total Score</strong> — Numeric<br>
 </em> <em>A composite or summary score integrating psychological and behavioral scales to represent overall patient well-being.</em></p>
+</section>
+</section>
+<section id="r-code" class="level1">
+<h1>2 R Code</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(readxl); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(tidyr); <span class="fu">library</span>(stringr); <span class="fu">library</span>(janitor)</span>
@@ -610,12 +619,14 @@ VIF (Model B):
 </div>
 </div>
 </section>
+<section id="discussion" class="level1">
+<h1>3 Discussion</h1>
 <section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>In this hospital sample of adults with T2DM, <strong>probable depression</strong> (PHQ-9 ≥ 10) was common and varied by sex and age. Higher depressive symptom burden showed a modest positive association with HbA1c, and a clear negative association with the dataset's "Total Score", which likely captures better self-management or health status. A simple logistic regression using HbA1c, age, sex, and Total Score provided <strong>interpretable</strong> odds ratios with sensible directions of effect. While results are cross-sectional and rely on screening (not diagnosis), they demonstrate how routinely collected variables can <strong>prioritize patients</strong> for further mental-health assessment. Future work could validate the model prospectively and incorporate more granular self-management behaviors.</p>
+<h2 class="anchored" data-anchor-id="summary">3.1 Summary</h2>
+<p>In this hospital sample of adults with T2DM, <strong>probable depression</strong> (PHQ-9 ≥ 10) was common and varied by sex and age. Higher depressive symptom burden showed a modest positive association with HbA1c, and a clear negative association with the dataset’s “Total Score”, which likely captures better self-management or health status. A simple logistic regression using HbA1c, age, sex, and Total Score provided <strong>interpretable</strong> odds ratios with sensible directions of effect. While results are cross-sectional and rely on screening (not diagnosis), they demonstrate how routinely collected variables can <strong>prioritize patients</strong> for further mental-health assessment. Future work could validate the model prospectively and incorporate more granular self-management behaviors.</p>
 </section>
 <section id="functions-checklist" class="level2">
-<h2 class="anchored" data-anchor-id="functions-checklist">Functions checklist</h2>
+<h2 class="anchored" data-anchor-id="functions-checklist">3.2 Functions checklist</h2>
 <ul>
 <li><p><strong>dplyr</strong>: <code>mutate()</code>, <code>across()</code>, <code>filter()</code>, <code>select()</code>, <code>rename()</code>, <code>case_when()</code>, <code>group_by()</code>, <code>summarise()</code>, <code>recode()</code>, <code>glimpse()</code></p></li>
 <li><p><strong>tidyr</strong>: <code>drop_na()</code>, <code>pivot_longer()</code> (if you extend item handling), <code>replace_na()</code>, <code>unite()</code> (optional)</p></li>

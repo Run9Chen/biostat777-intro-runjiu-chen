@@ -4,7 +4,7 @@ title: "Runjiu Chen"
 
 # Welcome!
 
-Hello! I'm Runjiu Chen, an ScM student in Genetic Epidemiology at Johns Hopkins University.\
+Hello! I'm Runjiu Chen, a ScM student in Genetic Epidemiology at Johns Hopkins University. I'm from China.\
 This is my Quarto website for **Statistical Programming Paradigms and Workflows**.
 
 ![](images/jhu%20harbor.jpg){fig-align="center" width="470"}

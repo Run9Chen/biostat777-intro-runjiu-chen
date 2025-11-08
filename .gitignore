@@ -1,5 +1,7 @@
-".Rproj.user/" 
-"_site/"       
-".Rhistory"    
-".RData"       
-".quarto/"     
+".Rproj.user/"
+"_site/"
+".Rhistory"
+".RData"
+".quarto/"
+
+/.quarto/
