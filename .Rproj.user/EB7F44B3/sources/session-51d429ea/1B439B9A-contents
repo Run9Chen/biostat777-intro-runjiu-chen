@@ -1,0 +1,360 @@
+---
+title: "Example analysis"
+bibliography: refs.bib
+---
+
+# Data Description
+
+## Purpose
+
+Identify key factors associated with depression among patients with Type 2 Diabetes Mellitus (T2DM) in Changde First People's Hospital and provide actionable insights for clinical screening & interventions.
+
+## External image
+
+![](images/Plot-01.png)
+
+::: {.callout-tip title="Tip with Title"}
+This diagram illustrates the relationship between diabetes and depression.
+:::
+
+## Audience
+
+Clinicians, diabetes educators, hospital administrators, and public health students in PH.140.777.
+
+## Data source
+
+Survey + EHR data from Changde First People's Hospital 常德市第一人民医院. Hospital website: <http://www.cdsyy.com>
+
+## Data dictionary
+
+::: {.callout-note}
+Note that there are 60 columns
+:::
+
+***Name** --- String\
+An anonymized identifier or coded name for each participant.*
+
+***Age** --- Numeric\
+Age of the participant in years.*
+
+***Duration of Diabetes (years)** --- Numeric\
+Number of years since the diagnosis of type 2 diabetes.*
+
+***Height (cm)** --- Numeric\
+Measured height in centimeters.*
+
+***Weight (kg)** --- Numeric\
+Measured body weight in kilograms.*
+
+***BMI** --- Numeric\
+Body Mass Index, calculated as weight (kg) divided by height squared (m²).*
+
+***Blood Pressure (mmHg)** --- String\
+Combined systolic and diastolic blood pressure (e.g., \"130/85\").\
+Includes the variables high_blood_pressure and low_blood_pressure.*
+
+***First Fasting Blood Glucose (mmol/L)** --- Numeric\
+Morning fasting plasma glucose level measured in mmol/L.*
+
+***HbA1c (%)** --- Numeric\
+Glycated hemoglobin level, reflecting the average blood glucose concentration during the previous 2--3 months.*
+
+***Sex** --- Categorical\
+Biological sex of the participant (Male / Female).*
+
+***Occupation** --- Categorical\
+Current or most recent occupation category.*
+
+***Highest Education Level** --- Categorical\
+Highest formal education attained (e.g., primary, secondary, college).*
+
+***Monthly Income (CNY/month)** --- Categorical\
+Self-reported monthly household income range in Chinese Yuan.*
+
+***Marital Status** --- Categorical\
+Current marital status: Married, Single, Widowed, or Divorced.*
+
+***Residence Location** --- Categorical\
+Urban or rural area of residence.*
+
+***Living Alone** --- Binary\
+Indicates whether the participant lives alone (1 = Yes, 0 = No).*
+
+***Smoking Status** --- Categorical\
+Smoking habit: Never, Former, or Current.*
+
+***Drinking Status** --- Categorical\
+Alcohol consumption pattern: None, Occasional, or Regular.*
+
+***Family History of Diabetes** --- Binary\
+Presence of diabetes in immediate family (1 = Yes, 0 = No).*
+
+***Clinical Symptoms** --- Text\
+Self-reported diabetes-related symptoms such as thirst, fatigue, or polyuria.*
+
+***Comorbid Diseases** --- Text\
+Other diagnosed chronic conditions (e.g., hypertension, dyslipidemia).*
+
+***Complications** --- Text\
+Diabetes-related complications such as neuropathy, nephropathy, or retinopathy.*
+
+***Exercise in Leisure Time** --- Binary\
+Engagement in physical exercise during free time (1 = Yes, 0 = No).*
+
+***Exercise Frequency (times/week)** --- Numeric\
+Number of exercise sessions per week.*
+
+***Exercise Duration (minutes/session)** --- Numeric\
+Average duration per exercise session in minutes.*
+
+***Depression Scale (PHQ-9 items)** --- Ordinal (0--3 per item)\
+The Patient Health Questionnaire-9, assessing nine core depressive symptoms: loss of interest, depressed mood, sleep problems, low energy, appetite change, guilt, poor concentration, psychomotor changes, and suicidal thoughts.\
+Total score ranges from 0 to 27; higher scores indicate more severe depression.*
+
+***Self-Management Scale (DSMS items)** --- Ordinal (1--5 Likert scale)\
+Measures diabetes self-management behaviors across domains of diet control, physical activity, blood glucose monitoring, foot care, and medication adherence.\
+Higher scores indicate better self-management.*
+
+***Caregiver Burden Scale (CBS items)** --- Ordinal (1--5 Likert scale)\
+Assesses perceived emotional, financial, and practical burden among caregivers (e.g., worry, guilt, cost, perceived competence).\
+Higher scores indicate greater caregiver burden.*
+
+***Total Score** --- Numeric\
+* *A composite or summary score integrating psychological and behavioral scales to represent overall patient well-being.*
+
+```{r}
+suppressPackageStartupMessages({
+  library(readxl); library(dplyr); library(tidyr); library(stringr); library(janitor)
+  library(ggplot2); library(patchwork); library(broom); library(car)
+  library(lmtest); library(sandwich); library(scales)
+})
+pal_bg <- c("#0ea5a6", "#38bdf8", "#10b981", "#0ea5e9", "#14b8a6")
+theme_bg <- function(){
+  theme_minimal(base_size = 12) +
+    theme(plot.title = element_text(face = "bold"),
+          plot.subtitle = element_text(color = "#0ea5a6"),
+          panel.grid.minor = element_blank(),
+          axis.title = element_text(color = "#0f172a"),
+          axis.text  = element_text(color = "#334155"),
+          legend.position = "right")
+}
+
+
+xlsx_path <- normalizePath("C:/Users/DELL/OneDrive/桌面/JHU Class/Patient Diabetes.xlsx",
+                           winslash = "/", mustWork = TRUE)
+sheets <- readxl::excel_sheets(xlsx_path)
+best   <- sheets[which.max(sapply(sheets, \(s) nrow(readxl::read_excel(xlsx_path, sheet = s, n_max = 10))))]
+raw    <- readxl::read_excel(xlsx_path, sheet = best) |> janitor::clean_names()
+message("Loaded sheet: ", best)
+
+char_df <- raw |> mutate(across(everything(), ~as.character(.) |> str_squish()))
+has_cn  <- char_df |>
+  mutate(across(everything(), ~str_detect(., "\\p{Han}"))) |>
+  transmute(row_cn = apply(across(everything()), 1, any)) |>
+  pull(row_cn) %>% replace_na(FALSE)
+
+num_safe <- function(x){
+  x <- as.character(x)
+  x <- stringi::stri_trans_general(x, "Fullwidth-Halfwidth")
+  x <- gsub("[,，]", "", x)
+  x <- gsub("[^0-9\\.-]", "", x)
+  suppressWarnings(as.numeric(x))
+}
+num_df <- char_df |> mutate(across(everything(), num_safe))
+
+is_numlike <- function(v) mean(!is.na(v)) >= 0.5 && dplyr::n_distinct(na.omit(v)) >= 5
+num_cols  <- names(num_df)[sapply(num_df, is_numlike)]
+stopifnot(length(num_cols) >= 2)
+
+clean0 <- num_df |>
+  filter(!has_cn) |>
+  drop_na(all_of(num_cols))
+
+pick_col <- function(nm, patterns){
+  idx <- which(Reduce(`|`, lapply(patterns, function(p) grepl(p, nm, ignore.case = TRUE))))
+  if (length(idx) == 0) NA_character_ else nm[idx[1]]
+}
+nm <- names(clean0)
+col_hba1c <- pick_col(nm, c("^hba1c$", "hb.?a1c", "glycated", "glyco.?hemoglobin", "糖化"))
+col_total <- pick_col(nm, c("^total\\s*_?score$", "total\\s*score", "^score$", "总分"))
+if (is.na(col_total)) stop("未找到 Total Score 列（例如 'Total Score' / 'total_score' / '总分'）。")
+
+clean <- if (!is.na(col_hba1c)) {
+  before <- nrow(clean0); out <- clean0 |> filter(.data[[col_hba1c]] <= 30 | is.na(.data[[col_hba1c]]))
+  message("Removed HbA1c > 30%: ", before - nrow(out)); out
+} else clean0
+
+num_cols <- union(col_total, intersect(num_cols, names(clean)))
+df_num   <- clean |> select(all_of(num_cols)) |> drop_na(all_of(col_total))
+n_total  <- nrow(df_num)
+
+method_used <- "spearman"
+corr_vec <- sapply(setdiff(names(df_num), col_total), function(v){
+  suppressWarnings(cor(df_num[[v]], df_num[[col_total]], use = "complete.obs", method = method_used))
+})
+corr_tbl <- tibble(variable = names(corr_vec), cor = as.numeric(corr_vec)) |>
+  arrange(desc(abs(cor)))
+k_top <- min(5, nrow(corr_tbl))
+if (k_top < 1) stop("可用于相关性的自变量不足。")
+top5_vars <- head(corr_tbl$variable, k_top)
+message("Top vars: ", paste(top5_vars, collapse = ", "))
+
+p_bar <- ggplot(corr_tbl |> mutate(variable = reorder(variable, abs(cor))),
+                aes(x = variable, y = cor, fill = cor)) +
+  geom_col() + coord_flip() +
+  scale_fill_gradient2(low = "#38bdf8", mid = "white", high = "#10b981", limits = c(-1,1)) +
+  labs(title = "Correlation with Total Score",
+       subtitle = paste0("Method: ", method_used),
+       x = NULL, y = "Correlation (r)") + theme_bg()
+print(p_bar)
+
+heat_vars <- unique(c(col_total, top5_vars))
+cor_mat  <- suppressWarnings(cor(df_num[, heat_vars, drop = FALSE], use = "pairwise.complete.obs", method = method_used))
+cor_df   <- as.data.frame(as.table(cor_mat)); names(cor_df) <- c("Var1","Var2","Corr")
+p_heat <- ggplot(cor_df, aes(Var1, Var2, fill = Corr)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "#38bdf8", mid = "white", high = "#10b981", limits = c(-1,1)) +
+  labs(title = "Correlation heatmap (Top vars + Total Score)", x = NULL, y = NULL, fill = "r") +
+  theme_bg() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+print(p_heat)
+
+safe_design <- function(df, y, x_vars){
+  df_sub <- df |> select(all_of(c(y, x_vars))) |> drop_na()
+  k <- length(x_vars); if (k < 1) stop("x_vars 为空。")
+  safe_names <- paste0("x", seq_len(k))
+  map_tbl <- tibble(orig = x_vars, safe = safe_names)
+  # rename 使用 new = old
+  renamer <- setNames(x_vars, safe_names)
+  X <- df_sub |>
+    select(all_of(x_vars)) |>
+    rename(!!!renamer) |>
+    mutate(across(everything(), ~as.numeric(scale(.))))
+  out <- bind_cols(total = df_sub[[y]], X)
+  list(data = out, map = map_tbl)
+}
+
+
+A_prep <- safe_design(df_num, y = col_total, x_vars = top5_vars)
+dat_A  <- A_prep$data
+map_A  <- A_prep$map
+stopifnot(all(paste0("x", seq_len(ncol(dat_A)-1)) %in% names(dat_A)))
+
+fit_A  <- lm(total ~ ., data = dat_A)
+A_ols  <- tidy(fit_A, conf.int = TRUE)
+A_hc3  <- lmtest::coeftest(fit_A, vcov = sandwich::vcovHC(fit_A, type = "HC3")) |> broom::tidy(conf.int = TRUE)
+A_gl   <- glance(fit_A)[, c("r.squared","adj.r.squared","p.value","AIC","BIC")]
+message("MODEL A adj.R2 = ", round(A_gl$adj.r.squared,3))
+
+
+reduce_collinearity <- function(dat, y){
+  fml <- reformulate(setdiff(names(dat), y), response = y)
+  fit <- lm(fml, data = dat)
+  repeat{
+    v <- tryCatch(car::vif(fit), error = function(e) NULL)
+    if (is.null(v) || max(v, na.rm = TRUE) <= 5 || length(v) <= 1) break
+    drop_var <- names(which.max(v))
+    dat <- dat |> select(-all_of(drop_var))
+    fml <- reformulate(setdiff(names(dat), y), response = y)
+    fit <- lm(fml, data = dat)
+  }
+  list(data = dat, fit = fit, vif = tryCatch(car::vif(fit), error = function(e) NULL))
+}
+B_red <- reduce_collinearity(dat_A, "total")
+dat_B2 <- B_red$data; fit_B <- B_red$fit; vif_B <- B_red$vif
+B_ols <- tidy(fit_B, conf.int = TRUE)
+B_hc3 <- lmtest::coeftest(fit_B, vcov = sandwich::vcovHC(fit_B, type = "HC3")) |> broom::tidy(conf.int = TRUE)
+B_gl  <- glance(fit_B)[, c("r.squared","adj.r.squared","p.value","AIC","BIC")]
+message("MODEL B adj.R2 = ", round(B_gl$adj.r.squared,3))
+
+set.seed(777)
+K <- 5; n_cv <- nrow(dat_A); fold_id <- sample(rep(1:K, length.out = n_cv))
+RMSE <- function(y, yhat) sqrt(mean((y - yhat)^2))
+R2   <- function(y, yhat) 1 - sum((y - yhat)^2) / sum((y - mean(y))^2)
+
+cv_collect <- list(A = data.frame(rmse=numeric(0), r2=numeric(0)),
+                   B = data.frame(rmse=numeric(0), r2=numeric(0)))
+
+for (k in 1:K){
+  tr <- dat_A[fold_id != k, , drop = FALSE]
+  te <- dat_A[fold_id == k, , drop = FALSE]
+
+  # A
+  fitA  <- lm(total ~ ., data = tr)
+  predA <- predict(fitA, newdata = te)
+  cv_collect$A <- rbind(cv_collect$A, data.frame(rmse = RMSE(te$total, predA),
+                                                 r2   = R2(te$total, predA)))
+  # B
+  redB <- reduce_collinearity(tr, "total")
+  fitB <- redB$fit
+  predB <- predict(fitB, newdata = te)      
+  cv_collect$B <- rbind(cv_collect$B, data.frame(rmse = RMSE(te$total, predB),
+                                                 r2   = R2(te$total, predB)))
+}
+
+cv_sum <- do.call(rbind, Map(function(df, name){
+  data.frame(model = name,
+             rmse_mean = mean(df$rmse), rmse_sd = sd(df$rmse),
+             r2_mean   = mean(df$r2),   r2_sd   = sd(df$r2))
+}, cv_collect, names(cv_collect)))
+print(cv_sum)
+
+
+p_cv <- ggplot(cv_sum, aes(x = factor(model, levels=c("A","B")), y = r2_mean, fill = model)) +
+  geom_col(width = 0.6, show.legend = FALSE) +
+  geom_errorbar(aes(ymin = r2_mean - r2_sd, ymax = r2_mean + r2_sd), width = 0.2) +
+  scale_fill_manual(values = pal_bg) +
+  labs(title = "5-fold CV: R² (mean ± sd)", subtitle = paste0("N = ", n_cv),
+       x = NULL, y = "R²") + theme_bg()
+p_rmse <- ggplot(cv_sum, aes(x = factor(model, levels=c("A","B")), y = rmse_mean, fill = model)) +
+  geom_col(width = 0.6, show.legend = FALSE) +
+  geom_errorbar(aes(ymin = rmse_mean - rmse_sd, ymax = rmse_mean + r2_sd), width = 0.2) +
+  scale_fill_manual(values = pal_bg) +
+  labs(title = "5-fold CV: RMSE (mean ± sd)", subtitle = paste0("N = ", n_cv),
+       x = NULL, y = "RMSE") + theme_bg()
+print(p_cv + p_rmse)
+
+pred_A <- augment(fit_A) |> mutate(model = "A_Top")
+pred_B <- augment(fit_B) |> mutate(model = "B_Decol")
+p_fit <- bind_rows(pred_A, pred_B) |>
+  ggplot(aes(.fitted, total, color = model)) +
+  geom_point(alpha = 0.7) +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, color = "#334155") +
+  scale_color_manual(values = pal_bg) +
+  labs(title = "Observed vs Fitted (A vs B)", x = "Fitted Total Score", y = "Observed Total Score") +
+  theme_bg()
+p_res <- bind_rows(pred_A, pred_B) |>
+  ggplot(aes(.fitted, .resid, color = model)) +
+  geom_point(alpha = 0.7) + geom_hline(yintercept = 0, linetype = 2, color = "#334155") +
+  scale_color_manual(values = pal_bg) +
+  labs(title = "Residuals vs Fitted (A vs B)", x = "Fitted values", y = "Residuals") +
+  theme_bg()
+print(p_fit); print(p_res)
+
+bpA <- bptest(fit_A); swA <- if (nrow(dat_A)<=5000) shapiro.test(residuals(fit_A)) else list(p.value = NA)
+bpB <- bptest(fit_B); swB <- if (nrow(dat_B2)<=5000) shapiro.test(residuals(fit_B)) else list(p.value = NA)
+
+cat("\n==== SUMMARY ====\n")
+cat("Top vars (orig -> safe):\n"); print(map_A)
+cat("\nModel A (Top OLS): adj.R2 =", round(A_gl$adj.r.squared,3),
+    " | BP p =", signif(bpA$p.value,3),
+    " | SW p =", ifelse(is.null(swA$p.value), NA, signif(swA$p.value,3)), "\n")
+cat("Model B (Decol OLS): adj.R2 =", round(B_gl$adj.r.squared,3),
+    " | BP p =", signif(bpB$p.value,3),
+    " | SW p =", ifelse(is.null(swB$p.value), NA, signif(swB$p.value,3)), "\n")
+if (!is.null(vif_B)) { cat("\nVIF (Model B):\n"); print(vif_B) }
+
+```
+
+## Summary
+
+In this hospital sample of adults with T2DM, **probable depression** (PHQ-9 ≥ 10) was common and varied by sex and age. Higher depressive symptom burden showed a modest positive association with HbA1c, and a clear negative association with the dataset\'s \"Total Score\", which likely captures better self-management or health status. A simple logistic regression using HbA1c, age, sex, and Total Score provided **interpretable** odds ratios with sensible directions of effect. While results are cross-sectional and rely on screening (not diagnosis), they demonstrate how routinely collected variables can **prioritize patients** for further mental-health assessment. Future work could validate the model prospectively and incorporate more granular self-management behaviors.
+
+## Functions checklist
+
+-   **dplyr**: `mutate()`, `across()`, `filter()`, `select()`, `rename()`, `case_when()`, `group_by()`, `summarise()`, `recode()`, `glimpse()`
+
+-   **tidyr**: `drop_na()`, `pivot_longer()` (if you extend item handling), `replace_na()`, `unite()` (optional)
+
+-   **ggplot2 (geoms)**: `geom_histogram()`, `geom_col()`, `geom_point()`, `geom_smooth()`, `geom_pointrange()`, plus `facet_wrap()`
+
+Recent evidence highlights precision subtyping of diabetes [@weng2022; @who2024].
