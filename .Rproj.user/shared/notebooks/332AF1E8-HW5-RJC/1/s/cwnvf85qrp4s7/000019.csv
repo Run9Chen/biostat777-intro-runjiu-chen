@@ -1,1 +1,0 @@
-"0","hist(p_two, breaks=20, freq=FALSE, main=""Two-sided p under H0 (Z)"", xlab=""p"",col=""darkblue""); abline(h=1, lwd=2)"
