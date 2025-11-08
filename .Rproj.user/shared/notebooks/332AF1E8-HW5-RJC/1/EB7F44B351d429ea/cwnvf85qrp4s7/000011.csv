@@ -1,0 +1,3 @@
+"0","hist(p_two_z, breaks = 30,"
+"0","     main = ""Two-sided P-values under H0 (z-based, known σ)"","
+"0","     xlab = ""P-value"", col = ""seagreen3"", border = ""white"")"

@@ -54,36 +54,34 @@ c(MeanLen_Exact=mean(len_exact), MeanLen_Wald=mean(len_wald))
 
 Problem 4
 ```{r}
-set.seed(1)
-nsim <- 10000; n <- 16; mu0 <- 5; sigma <- 1
+## Problem 4 (Known sigma; z-based) -- Blue/Green theme
+set.seed(123)
+n <- 16
+mu0 <- 5
+sigma <- 1
+nsim <- 10000
 
-# Z 统计量（已知方差）
-z <- replicate(nsim, {
-  x <- rnorm(n, mean=mu0, sd=sigma)
-  (mean(x) - mu0) / (sigma/sqrt(n))
+z_stats <- replicate(nsim, {
+  x <- rnorm(n, mean = mu0, sd = sigma)
+  (mean(x) - mu0) / (sigma / sqrt(n))
 })
-p_one <- 1 - pnorm(z)          # Ha: mu > mu0（右尾）
-p_two <- 2 * pnorm(-abs(z))    # 双侧
 
-# t 统计量（未知方差）
-set.seed(2)
-p_one_t <- p_two_t <- numeric(nsim)
-for (i in 1:nsim) {
-  x <- rnorm(n, mean=mu0, sd=sigma)
-  tstat <- (mean(x)-mu0)/(sd(x)/sqrt(n))
-  p_one_t[i] <- 1 - pt(tstat, df=n-1)
-  p_two_t[i] <- 2 * pt(-abs(tstat), df=n-1)
-}
+# p-values
+p_one_z <- pnorm(z_stats, lower.tail = TRUE)             # Ha: mu < mu0
+p_two_z <- 2 * pnorm(-abs(z_stats))                      # two-sided
 
-par(mfrow=c(1,2))
-hist(p_one, breaks=20, freq=FALSE, main="One-sided p under H0 (Z)", xlab="p",col="darkblue"); abline(h=1, lwd=2)
-hist(p_two, breaks=20, freq=FALSE, main="Two-sided p under H0 (Z)", xlab="p",col="darkblue"); abline(h=1, lwd=2)
+# Plots (blue & green)
+hist(p_one_z, breaks = 30,
+     main = "One-sided P-values under H0 (z-based, known σ)",
+     xlab = "P-value", col = "steelblue", border = "white")
+hist(p_two_z, breaks = 30,
+     main = "Two-sided P-values under H0 (z-based, known σ)",
+     xlab = "P-value", col = "seagreen3", border = "white")
 
-# 形式检验
-ks.test(p_one, "punif", 0, 1)
-ks.test(p_two, "punif", 0, 1)
-ks.test(p_one_t, "punif", 0, 1)
-ks.test(p_two_t, "punif", 0, 1)
+# Quick uniformity check (optional)
+ks.test(p_one_z, "punif", 0, 1)
+ks.test(p_two_z, "punif", 0, 1)
 
 ```
+Under a true null with a continuous test statistic, the p-values are Uniform(0,1); both one-sided and two-sided histograms should look flat. If the alternative were true (e.g., μ=4.8), the histogram would skew to the left (more mass near 0).
 
